@@ -2,7 +2,11 @@ package com.example.login
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.transition.Explode
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -41,22 +45,43 @@ class MainActivity : AppCompatActivity() {
         {
             if (userNameEditText.text.isEmpty())
             {
+                val shake: Animation = AnimationUtils.loadAnimation(this, R.anim.shake)
+                userNameEditText.startAnimation(shake);
                 Toast.makeText(this, "¡You must enter your name!", Toast.LENGTH_LONG).show()
             }
             else {
                 val userName = userNameEditText.text
                 if (difficulty != null) {
                     if (difficulty == false) {
+                        val loginSound = MediaPlayer.create(this, R.raw.login_sound)
+                        loginSound.start()
                         val intent = Intent(this, EasyActivity :: class.java)
-                        intent.putExtra("Name", userName)
+                        intent.putExtra(EasyActivity.userNameConstants.userName, userName)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.fade_in_and_glow, R.anim.fade_out_and_glow)
+
+                        loginSound.setOnCompletionListener {
+                            loginSound.stop()
+                        }
 
                     } else if (difficulty == true) {
+                        val loginSound = MediaPlayer.create(this, R.raw.login_sound)
+                        loginSound.start()
+
                         val intent = Intent(this, HardActivity :: class.java)
+                        intent.putExtra(HardActivity.userNameConstants.userName, userName)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                        loginSound.setOnCompletionListener {
+                            loginSound.stop()
+                        }
 
                     }
                 } else {
+                    val shake: Animation = AnimationUtils.loadAnimation(this, R.anim.shake)
+                    btonEasy.startAnimation(shake)
+                    btonHard.startAnimation(shake)
                     Toast.makeText(this, "¡You must select a difficulty!", Toast.LENGTH_LONG).show()
                 }
             }
