@@ -44,13 +44,17 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "¡You must enter your name!", Toast.LENGTH_LONG).show()
             }
             else {
+                val userName = userNameEditText.text
                 if (difficulty != null) {
                     if (difficulty == false) {
                         val intent = Intent(this, EasyActivity :: class.java)
+                        intent.putExtra("Name", userName)
                         startActivity(intent)
 
                     } else if (difficulty == true) {
-                        //abrir activity del hard
+                        val intent = Intent(this, HardActivity :: class.java)
+                        startActivity(intent)
+
                     }
                 } else {
                     Toast.makeText(this, "¡You must select a difficulty!", Toast.LENGTH_LONG).show()

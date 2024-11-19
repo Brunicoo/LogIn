@@ -25,8 +25,13 @@
         <activity
             android:name=".EasyActivity"
             android:exported="true">
-
         </activity>
+
+        <activity
+            android:name=".HardActivity"
+            android:exported="true">
+        </activity>
+
     </application>
 
 </manifest>
